@@ -6,6 +6,8 @@
 package com.gerenciador.apigerenciador.resouces;
 
 import com.gerenciador.apigerenciador.models.Pessoa;
+import com.gerenciador.apigerenciador.models.Conta;
+import com.gerenciador.apigerenciador.repository.ContaRepository;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,22 @@ public class PessoaResource {
 
     @Autowired
     PessoaRepository pessoaRepository;
+    @Autowired
+    ContaRepository contaRepository;
 
     @GetMapping("/pessoa/{login}")
-    public Pessoa listaPessoas(@PathVariable(value="login") String login) {
+    public Pessoa Pessoa(@PathVariable(value="login") String login) {
         return pessoaRepository.findByLogin(login);
     }
 
+    @GetMapping("/pessoa/{login}/{conta}")
+    public List<Conta> listaContasPessoa(@PathVariable(value="login") String login) {
+        System.out.println("aqui");
+     Pessoa p =   pessoaRepository.findByLogin(login);
+        System.out.println(p.toString());
+        return (List<Conta>) contaRepository.findByCdPessoa(p.getId());
+    }
+    
     @GetMapping("/pessoa")
     public List<Pessoa> listaPessoas() {
         return pessoaRepository.findAll();
