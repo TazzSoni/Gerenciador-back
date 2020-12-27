@@ -7,6 +7,7 @@ package com.gerenciador.apigerenciador.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -23,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="pessoa")
-public class Pessoa implements Serializable{
+public class Pessoa implements Serializable, UserDetails{
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -106,8 +109,39 @@ public class Pessoa implements Serializable{
     public void setCarteira(double carteira) {
         this.carteira = carteira;
     }
-    
-    
-    
-    
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

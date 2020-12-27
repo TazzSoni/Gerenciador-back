@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author tasso
  */
-public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
+public interface PessoaRepository extends JpaRepository<Pessoa, String>{
+    
+    Pessoa findByLogin(String login);
     
 }
