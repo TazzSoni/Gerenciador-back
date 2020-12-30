@@ -33,20 +33,6 @@ public class Conta implements Serializable {
 
     private double valor;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="cd_pessoa")
-    private Pessoa pessoa;
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-    
-    
-
     public long getId() {
         return id;
     }

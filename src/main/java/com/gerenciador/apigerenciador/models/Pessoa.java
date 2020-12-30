@@ -94,6 +94,10 @@ public class Pessoa implements Serializable, UserDetails{
     public void setContas(ArrayList<Conta> contas) {
         this.contas = contas;
     }
+    
+    public void addContas(Conta ct) {
+        this.contas.add(ct);
+    }
 
     public List<Banco> getBancos() {
         return bancos;
@@ -101,6 +105,10 @@ public class Pessoa implements Serializable, UserDetails{
 
     public void setBancos(ArrayList<Banco> bancos) {
         this.bancos = bancos;
+    }
+    
+    public void addBancos(Banco bc) {
+        this.bancos.add(bc);
     }
 
     public double getCarteira() {
@@ -145,4 +153,11 @@ public class Pessoa implements Serializable, UserDetails{
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", contas=" + contas + ", bancos=" + bancos + ", carteira=" + carteira + '}';
+    }
+    
+    
 }

@@ -25,31 +25,29 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api")
-public class PessoaResource {
+public class ContaResource {
 
     @Autowired
     PessoaRepository pessoaRepository;
     @Autowired
     ContaRepository contaRepository;
 
-    @GetMapping("/pessoa/{login}")
-    public Pessoa Pessoa(@PathVariable(value = "login") String login) {
-        return pessoaRepository.findByLogin(login);
+    @GetMapping("/conta/{login}")
+    public List<Conta> listaContasPessoa(@PathVariable(value = "login") String login) {
+        Pessoa p = pessoaRepository.findByLogin(login);
+        return (List<Conta>) contaRepository.findByCdPessoa(p.getId());
     }
 
-    @GetMapping("/pessoa")
-    public List<Pessoa> listaPessoas() {
-        return pessoaRepository.findAll();
+    @PostMapping("/conta/{login}")
+    public Conta criaConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
+        Pessoa p = pessoaRepository.findByLogin(login);
+        p.addContas(conta);
+        pessoaRepository.save(p);
+        return conta;
     }
 
-    @PostMapping("/pessoa")
-    public Pessoa createPessoa(@RequestBody Pessoa pessoa) {
-        return pessoaRepository.save(pessoa);
-    }
-
-    @PutMapping("/pessoa/{login}")
-    public Pessoa editPessoa(@PathVariable(value = "login") String login, @RequestBody Pessoa pessoa) {
-        pessoa = pessoaRepository.findByLogin(login);
-        return pessoaRepository.save(pessoa);
+    @PutMapping("/conta/{login}")
+    public Conta editConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
+        return contaRepository.save(conta);
     }
 }

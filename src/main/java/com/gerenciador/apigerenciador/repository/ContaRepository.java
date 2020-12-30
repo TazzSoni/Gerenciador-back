@@ -17,8 +17,7 @@ import org.springframework.data.repository.query.Param;
  * @author tasso
  */
 public interface ContaRepository extends JpaRepository<Conta, Long>{
-    @Query(value = "select * from conta where cd_pessoa =:pessoaId", nativeQuery = true)
-    
+    @Query(value = "select*from conta where id IN  (select contas_id from pessoa_contas where pessoa_id =:pessoaId)", nativeQuery = true)
     List<Conta> findByCdPessoa(@Param("pessoaId") Long pessoaId);
     
 }
