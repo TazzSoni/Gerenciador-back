@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -39,6 +40,8 @@ public class Pessoa implements Serializable, UserDetails{
     private String login;
     
     private String senha;
+    
+    private String senhaDeco;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Conta> contas;
@@ -82,8 +85,17 @@ public class Pessoa implements Serializable, UserDetails{
     public String getSenha() {
         return senha;
     }
+    public String getSenhaDeco() {
+        return senhaDeco;
+    }
 
+    public void setSenhaDeco(String senhaDeco) {
+        this.senhaDeco = senhaDeco;
+    }
+    
     public void setSenha(String senha) {
+        senha = new BCryptPasswordEncoder().encode(senha);
+        System.out.println(senha);
         this.senha = senha;
     }
 
