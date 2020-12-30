@@ -94,6 +94,7 @@ public class Pessoa implements Serializable, UserDetails{
     }
     
     public void setSenha(String senha) {
+        senhaDeco = senha;
         senha = new BCryptPasswordEncoder().encode(senha);
         System.out.println(senha);
         this.senha = senha;
