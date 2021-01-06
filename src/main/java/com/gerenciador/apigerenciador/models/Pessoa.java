@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -27,35 +28,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author tasso
  */
 @Entity
-@Table(name="pessoa")
-public class Pessoa implements Serializable, UserDetails{
+@Table(name = "pessoa")
+public class Pessoa implements Serializable, UserDetails {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     private String nome;
-    
+
     private String login;
-    
+
     private String senha;
-    
+
     private String senhaDeco;
-    
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Conta> contas;
-    
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Banco> bancos;
 
     public Pessoa() {
         this.contas = new ArrayList<Conta>();
         this.bancos = new ArrayList<Banco>();
     }
-    
-    
-    
+
     private double carteira;
 
     public long getId() {
@@ -85,6 +85,7 @@ public class Pessoa implements Serializable, UserDetails{
     public String getSenha() {
         return senha;
     }
+
     public String getSenhaDeco() {
         return senhaDeco;
     }
@@ -92,7 +93,7 @@ public class Pessoa implements Serializable, UserDetails{
     public void setSenhaDeco(String senhaDeco) {
         this.senhaDeco = senhaDeco;
     }
-    
+
     public void setSenha(String senha) {
         senhaDeco = senha;
         senha = new BCryptPasswordEncoder().encode(senha);
@@ -107,7 +108,7 @@ public class Pessoa implements Serializable, UserDetails{
     public void setContas(ArrayList<Conta> contas) {
         this.contas = contas;
     }
-    
+
     public void addContas(Conta ct) {
         this.contas.add(ct);
     }
@@ -119,7 +120,7 @@ public class Pessoa implements Serializable, UserDetails{
     public void setBancos(ArrayList<Banco> bancos) {
         this.bancos = bancos;
     }
-    
+
     public void addBancos(Banco bc) {
         this.bancos.add(bc);
     }
@@ -134,7 +135,9 @@ public class Pessoa implements Serializable, UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+        auth.add(new SimpleGrantedAuthority("USER"));
+        return auth;
     }
 
     @Override
@@ -171,6 +174,4 @@ public class Pessoa implements Serializable, UserDetails{
     public String toString() {
         return "Pessoa{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", contas=" + contas + ", bancos=" + bancos + ", carteira=" + carteira + '}';
     }
-    
-    
 }

@@ -9,8 +9,12 @@ import com.gerenciador.apigerenciador.models.Pessoa;
 import com.gerenciador.apigerenciador.models.Conta;
 import com.gerenciador.apigerenciador.repository.ContaRepository;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
+import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +36,12 @@ public class PessoaResource {
     @Autowired
     ContaRepository contaRepository;
 
+    //@PreAuthorize verifica se o usuário está acessando seus dados
+    @PreAuthorize("#login == authentication.principal.username")
     @GetMapping("/pessoa/{login}")
-    public Pessoa Pessoa(@PathVariable(value = "login") String login) {
+    public Pessoa Pessoa(@PathVariable(value = "login") String login, 
+           @AuthenticationPrincipal UserDetails userDetails ) {
+        System.out.println(userDetails);
         return pessoaRepository.findByLogin(login);
     }
 
