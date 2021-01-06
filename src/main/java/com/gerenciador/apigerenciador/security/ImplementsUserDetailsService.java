@@ -7,7 +7,11 @@ package com.gerenciador.apigerenciador.security;
 
 import com.gerenciador.apigerenciador.models.Pessoa;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +35,11 @@ public class ImplementsUserDetailsService implements UserDetailsService {
             throw  new UsernameNotFoundException("Usuário não encontrado!");
         }
         
-        return pessoa;
+        //Lista que seta as ROLES dos usuários
+     //  List<GrantedAuthority> authorityListAdmin = AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN");
+       List<GrantedAuthority> authorityListuser = AuthorityUtils.createAuthorityList("ROLE_USER");
+        
+        return new User(login, pessoa.getPassword(), authorityListuser);
     }
     
 }
