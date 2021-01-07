@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gerenciador.apigerenciador.security;
+package com.gerenciador.apigerenciador.config;
 
 import com.gerenciador.apigerenciador.models.Pessoa;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
