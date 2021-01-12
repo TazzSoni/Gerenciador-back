@@ -52,4 +52,14 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     ) throws IOException, ServletException {
         TokenAuthenticationService.addAuthentication(res, auth.getName());
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request, 
+            HttpServletResponse response, 
+            AuthenticationException failed) throws IOException, ServletException {
+       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
+    
+    
 }
