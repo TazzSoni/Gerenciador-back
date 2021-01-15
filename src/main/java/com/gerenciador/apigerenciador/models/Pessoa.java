@@ -32,6 +32,12 @@ public class Pessoa implements Serializable, UserDetails {
     private String login;
 
     private String senha;
+    
+    private double carteira;
+    
+    private double receita;
+    
+    private double despesas;
 
     private String senhaDeco;
 
@@ -46,7 +52,6 @@ public class Pessoa implements Serializable, UserDetails {
         this.bancos = new ArrayList<Banco>();
     }
 
-    private double carteira;
 
     public long getId() {
         return id;
@@ -119,10 +124,32 @@ public class Pessoa implements Serializable, UserDetails {
         return carteira;
     }
 
-    public void setCarteira(double carteira) {
-        this.carteira = carteira;
+    public void setCarteira() {
+        
+        for(Banco b:bancos){
+        this.carteira += b.getValor();
+        }
     }
 
+    public double getReceita() {
+        return receita;
+    }
+
+    public void setReceita(double receita) {
+        this.receita = receita;
+    }
+
+    public double getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas() {
+        
+        for(Conta c:contas){
+        this.despesas += c.getValor();
+        }
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();

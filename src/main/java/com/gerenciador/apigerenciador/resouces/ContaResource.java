@@ -33,6 +33,7 @@ public class ContaResource {
     public Conta criaConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
         Pessoa p = pessoaRepository.findByLogin(login);
         p.addContas(conta);
+        p.setDespesas();
         pessoaRepository.save(p);
         return conta;
     }
