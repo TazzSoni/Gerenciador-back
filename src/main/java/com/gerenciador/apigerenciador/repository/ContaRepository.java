@@ -10,4 +10,6 @@ public interface ContaRepository extends JpaRepository<Conta, Long>{
     @Query(value = "select*from conta where id IN  (select contas_id from pessoa_contas where pessoa_id =:pessoaId)", nativeQuery = true)
     List<Conta> findByCdPessoa(@Param("pessoaId") Long pessoaId);
     
+    Conta findById(long id);
+    
 }

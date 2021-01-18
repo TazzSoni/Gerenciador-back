@@ -52,7 +52,15 @@ public class Pessoa implements Serializable, UserDetails {
         this.bancos = new ArrayList<Banco>();
     }
 
-
+public void deleteConta(Conta conta){
+    List<Conta> toRemove = new ArrayList<Conta>();
+    for(Conta c: contas){
+        if(c.getId() == conta.getId()){
+            toRemove.add(c);
+        }
+    }
+    contas.removeAll(toRemove);
+}
     public long getId() {
         return id;
     }

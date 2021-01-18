@@ -5,7 +5,9 @@ import com.gerenciador.apigerenciador.models.Conta;
 import com.gerenciador.apigerenciador.repository.ContaRepository;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +37,23 @@ public class ContaResource {
         p.addContas(conta);
         p.setDespesas();
         pessoaRepository.save(p);
+        p.deleteConta(conta);
+
         return conta;
     }
-    
+
     @PutMapping("/conta/{login}")
     public Conta editConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
         return contaRepository.save(conta);
+    }
+
+    @DeleteMapping("/conta/{login}/{id}")
+    public Conta deleteConta(@PathVariable(value = "login") String login, @PathVariable(value = "id") long id) {
+        Pessoa p = pessoaRepository.findByLogin(login);
+        Conta conta = contaRepository.findById(id);
+        p.deleteConta(conta);
+        pessoaRepository.save(p);
+        contaRepository.delete(conta);
+        return conta;
     }
 }
