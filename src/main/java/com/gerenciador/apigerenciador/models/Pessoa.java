@@ -57,6 +57,7 @@ public void deleteConta(Conta conta){
     for(Conta c: contas){
         if(c.getId() == conta.getId()){
             toRemove.add(c);
+            this.despesas -= conta.getValor();
         }
     }
     contas.removeAll(toRemove);

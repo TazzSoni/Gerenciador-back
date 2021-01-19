@@ -37,8 +37,6 @@ public class ContaResource {
         p.addContas(conta);
         p.setDespesas();
         pessoaRepository.save(p);
-        p.deleteConta(conta);
-
         return conta;
     }
 
