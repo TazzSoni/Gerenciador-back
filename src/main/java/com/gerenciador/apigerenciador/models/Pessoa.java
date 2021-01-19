@@ -153,10 +153,11 @@ public void deleteConta(Conta conta){
     }
 
     public void setDespesas() {
-        
+        double disp = 0;
         for(Conta c:contas){
-        this.despesas += c.getValor();
+        disp += c.getValor();
         }
+        this.despesas = disp;
     }
     
     @Override
