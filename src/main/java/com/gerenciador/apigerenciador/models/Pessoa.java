@@ -152,6 +152,18 @@ public void deleteConta(Conta conta){
         return despesas;
     }
 
+    public void atualizaConta(Conta conta) {
+        
+        for(Conta c:contas){
+        if(conta.getId() == c.getId()){
+            c.setDescricao(conta.getDescricao());
+            c.setValor(conta.getValor());
+            c.setData(conta.getData());
+        }
+        }
+        setDespesas();
+    }
+    
     public void setDespesas() {
         double disp = 0;
         for(Conta c:contas){
@@ -201,4 +213,5 @@ public void deleteConta(Conta conta){
     public String toString() {
         return "Pessoa{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", contas=" + contas + ", bancos=" + bancos + ", carteira=" + carteira + '}';
     }
+
 }

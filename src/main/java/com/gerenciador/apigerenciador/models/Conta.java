@@ -1,6 +1,7 @@
 package com.gerenciador.apigerenciador.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,16 @@ public class Conta implements Serializable {
     private String descricao;
 
     private double valor;
+    
+    private Date data;
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
     
     public long getId() {
         return id;

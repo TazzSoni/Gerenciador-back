@@ -42,6 +42,9 @@ public class ContaResource {
 
     @PutMapping("/conta/{login}")
     public Conta editConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
+        Pessoa p = pessoaRepository.findByLogin(login);
+        p.atualizaConta(conta);
+        pessoaRepository.save(p);
         return contaRepository.save(conta);
     }
 
