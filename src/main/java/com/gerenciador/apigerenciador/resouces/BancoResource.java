@@ -1,8 +1,8 @@
 package com.gerenciador.apigerenciador.resouces;
 
 import com.gerenciador.apigerenciador.models.Pessoa;
-import com.gerenciador.apigerenciador.models.Conta;
-import com.gerenciador.apigerenciador.repository.ContaRepository;
+import com.gerenciador.apigerenciador.models.Banco;
+import com.gerenciador.apigerenciador.repository.BancoRepository;
 import com.gerenciador.apigerenciador.repository.PessoaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,43 +17,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api")
-public class ContaResource {
+public class BancoResource {
 
     @Autowired
     PessoaRepository pessoaRepository;
     @Autowired
-    ContaRepository contaRepository;
+    BancoRepository bancoRepository;
 
-    @GetMapping("/conta/{login}")
-    public List<Conta> listaContasPessoa(@PathVariable(value = "login") String login) {
+    @GetMapping("/banco/{login}")
+    public List<Banco> listaBancoPessoa(@PathVariable(value = "login") String login) {
         Pessoa p = pessoaRepository.findByLogin(login);
-        return (List<Conta>) contaRepository.findByCdPessoa(p.getId());
+        return (List<Banco>) bancoRepository.findByCdPessoa(p.getId());
     }
 
-    @PostMapping("/conta/{login}")
-    public Conta criaConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
+    @PostMapping("/banco/{login}")
+    public Banco criaBanco(@PathVariable(value = "login") String login, @RequestBody Banco banco) {
         Pessoa p = pessoaRepository.findByLogin(login);
-        p.addContas(conta);
-        p.setDespesas();
+        p.addBancos(banco);
+        p.setCarteira();
         pessoaRepository.save(p);
-        return conta;
+        return banco;
     }
 
-    @PutMapping("/conta/{login}")
-    public Conta editConta(@PathVariable(value = "login") String login, @RequestBody Conta conta) {
+    @PutMapping("/banco/{login}")
+    public Banco editBanco(@PathVariable(value = "login") String login, @RequestBody Banco banco) {
         Pessoa p = pessoaRepository.findByLogin(login);
-        p.atualizaConta(conta);
+        p.atualizaBanco(banco);
         pessoaRepository.save(p);
-        return contaRepository.save(conta);
+        return bancoRepository.save(banco);
     }
 
-    @DeleteMapping("/conta/{login}/{id}")
-    public Conta deleteConta(@PathVariable(value = "login") String login, @PathVariable(value = "id") long id) {
+    @DeleteMapping("/banco/{login}/{id}")
+    public Banco deleteBanco(@PathVariable(value = "login") String login, @PathVariable(value = "id") long id) {
         Pessoa p = pessoaRepository.findByLogin(login);
-        Conta conta = contaRepository.findById(id);
-        p.deleteConta(conta);
+        Banco banco = bancoRepository.findById(id);
+        p.deleteBanco(banco);
         pessoaRepository.save(p);
-        contaRepository.delete(conta);
-        return conta;
+        bancoRepository.delete(banco);
+        return banco;
     }
 }
+

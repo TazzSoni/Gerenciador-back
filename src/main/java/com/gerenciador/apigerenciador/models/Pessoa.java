@@ -32,11 +32,11 @@ public class Pessoa implements Serializable, UserDetails {
     private String login;
 
     private String senha;
-    
+
     private double carteira;
-    
+
     private double receita;
-    
+
     private double despesas;
 
     private String senhaDeco;
@@ -52,16 +52,28 @@ public class Pessoa implements Serializable, UserDetails {
         this.bancos = new ArrayList<Banco>();
     }
 
-public void deleteConta(Conta conta){
-    List<Conta> toRemove = new ArrayList<Conta>();
-    for(Conta c: contas){
-        if(c.getId() == conta.getId()){
-            toRemove.add(c);
-            this.despesas -= conta.getValor();
+    public void deleteConta(Conta conta) {
+        List<Conta> toRemove = new ArrayList<Conta>();
+        for (Conta c : contas) {
+            if (c.getId() == conta.getId()) {
+                toRemove.add(c);
+                this.despesas -= conta.getValor();
+            }
         }
+        contas.removeAll(toRemove);
     }
-    contas.removeAll(toRemove);
-}
+    
+    public void deleteBanco(Banco banco) {
+        List<Banco> toRemove = new ArrayList<Banco>();
+        for (Banco b : bancos) {
+            if (b.getId() == banco.getId()) {
+                toRemove.add(b);
+                this.carteira -= banco.getValor();
+            }
+        }
+        bancos.removeAll(toRemove);
+    }
+
     public long getId() {
         return id;
     }
@@ -134,10 +146,11 @@ public void deleteConta(Conta conta){
     }
 
     public void setCarteira() {
-        
-        for(Banco b:bancos){
-        this.carteira += b.getValor();
+        double cart = 0;
+        for (Banco b : bancos) {
+            cart += b.getValor();
         }
+        this.carteira = cart;
     }
 
     public double getReceita() {
@@ -153,25 +166,35 @@ public void deleteConta(Conta conta){
     }
 
     public void atualizaConta(Conta conta) {
-        
-        for(Conta c:contas){
-        if(conta.getId() == c.getId()){
-            c.setDescricao(conta.getDescricao());
-            c.setValor(conta.getValor());
-            c.setData(conta.getData());
-        }
+
+        for (Conta c : contas) {
+            if (conta.getId() == c.getId()) {
+                c.setDescricao(conta.getDescricao());
+                c.setValor(conta.getValor());
+                c.setData(conta.getData());
+            }
         }
         setDespesas();
     }
     
+    public void atualizaBanco(Banco banco) {
+        for (Banco b : bancos) {
+            if (banco.getId() == b.getId()) {
+                b.setNome(banco.getNome());
+                b.setValor(banco.getValor());
+            }
+        }
+        setDespesas();
+    }
+
     public void setDespesas() {
         double disp = 0;
-        for(Conta c:contas){
-        disp += c.getValor();
+        for (Conta c : contas) {
+            disp += c.getValor();
         }
         this.despesas = disp;
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
@@ -213,5 +236,7 @@ public void deleteConta(Conta conta){
     public String toString() {
         return "Pessoa{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", contas=" + contas + ", bancos=" + bancos + ", carteira=" + carteira + '}';
     }
+
+
 
 }
