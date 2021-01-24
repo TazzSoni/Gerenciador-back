@@ -35,12 +35,15 @@ public class Pessoa implements Serializable, UserDetails {
 
     private double carteira;
 
-    private double receita;
-
     private double despesas;
+
+    private double receita;
 
     private String senhaDeco;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Receita> receitas;
+    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Conta> contas;
 
@@ -141,8 +144,43 @@ public class Pessoa implements Serializable, UserDetails {
         this.bancos.add(bc);
     }
 
+    public void setReceitas(ArrayList<Receita> receitas) {
+        this.receitas = receitas;
+    }
+
+    public void addReceitas(Receita rc) {
+        this.receitas.add(rc);
+    }
+        
+    public void deleteReceita(Receita receita) {
+        List<Receita> toRemove = new ArrayList<Receita>();
+        for (Receita r : receitas) {
+            if (r.getId() == receita.getId()) {
+                toRemove.add(r);
+                this.receita -= receita.getValor();
+            }
+        }
+        bancos.removeAll(toRemove);
+    }
+
+    public double getReceita() {
+        return receita;
+    }
+
+    public List<Receita> getReceitas() {
+        return receitas;
+    }
+
     public double getCarteira() {
         return carteira;
+    }
+
+    public void setReceita() {
+        double rec = 0;
+        for (Receita r : receitas) {
+            rec += r.getValor();
+        }
+        this.receita = rec;
     }
 
     public void setCarteira() {
@@ -151,14 +189,6 @@ public class Pessoa implements Serializable, UserDetails {
             cart += b.getValor();
         }
         this.carteira = cart;
-    }
-
-    public double getReceita() {
-        return receita;
-    }
-
-    public void setReceita(double receita) {
-        this.receita = receita;
     }
 
     public double getDespesas() {
@@ -185,6 +215,16 @@ public class Pessoa implements Serializable, UserDetails {
             }
         }
         setDespesas();
+    }
+    
+    public void atualizaReceita(Receita receita) {
+        for (Receita r : receitas) {
+            if (receita.getId() == r.getId()) {
+                r.setOrigem(receita.getOrigem());
+                r.setValor(receita.getValor());
+            }
+        }
+        setReceita();
     }
 
     public void setDespesas() {
