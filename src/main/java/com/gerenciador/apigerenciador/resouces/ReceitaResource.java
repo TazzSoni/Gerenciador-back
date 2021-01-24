@@ -34,7 +34,7 @@ public class ReceitaResource {
     public Receita criaReceita(@PathVariable(value = "login") String login, @RequestBody Receita receita) {
         Pessoa p = pessoaRepository.findByLogin(login);
         p.addReceitas(receita);
-        p.setCarteira();
+        p.setReceita();
         pessoaRepository.save(p);
         return receita;
     }
