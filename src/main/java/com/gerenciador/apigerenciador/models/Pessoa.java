@@ -160,7 +160,7 @@ public class Pessoa implements Serializable, UserDetails {
                 this.receita -= receita.getValor();
             }
         }
-        bancos.removeAll(toRemove);
+        receitas.removeAll(toRemove);
     }
 
     public double getReceita() {
