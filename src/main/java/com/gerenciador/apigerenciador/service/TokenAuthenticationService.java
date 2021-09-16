@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class TokenAuthenticationService {
 
-    private static final long EXPIRATIONTIME = 864000000;
+    private static final long EXPIRATIONTIME = 999999999;
     private static final String SECRET = "MySecreteApp";
     private static final String TOKEN_PREFIX = "Bearer";
     private static final String HEADER_STRING = "Authorization";
@@ -25,6 +25,7 @@ public class TokenAuthenticationService {
                 .compact();
 
         String token = TOKEN_PREFIX + " " + JWT;
+        System.out.println(JWT);
         res.addHeader(HEADER_STRING, token);
 
         try {
